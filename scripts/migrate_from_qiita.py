@@ -9,7 +9,7 @@ VAULT_QIITA = os.path.expanduser(
     "/マイドライブ/ObsidianVault/Qiita"
 )
 ZENN_ARTICLES = os.path.join(os.path.dirname(__file__), "..", "articles")
-ZENN_USERNAME = "tadashikudo"  # Zenn ダッシュボードのユーザー名に合わせること
+ZENN_USERNAME = "tadkud"
 
 # タグ→絵文字マッピング（先頭一致）
 EMOJI_MAP = [
