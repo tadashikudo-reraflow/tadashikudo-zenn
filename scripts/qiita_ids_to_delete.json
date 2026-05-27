@@ -1,0 +1,170 @@
+[
+  {
+    "slug": "2026-04-02_ai-era-best-db-beginners-guide",
+    "qiita_id": "aaa2267229f674ab4069"
+  },
+  {
+    "slug": "2026-04-02_oracle-ai-db-26ai-multimodal-agent",
+    "qiita_id": "27872b7e46362edb433a"
+  },
+  {
+    "slug": "2026-04-15_lifecycle-hooks",
+    "qiita_id": "20cc213470c6a7576e44"
+  },
+  {
+    "slug": "2026-04-16_claude-md-design-patterns",
+    "qiita_id": "8a1fd7d70882cb98981b"
+  },
+  {
+    "slug": "2026-04-17_xserver-api-setup-and-usage",
+    "qiita_id": "17ab378683090843b156"
+  },
+  {
+    "slug": "claude-code-memory-system-guide",
+    "qiita_id": "e100d26ffc86d7c52b0d"
+  },
+  {
+    "slug": "claude-code-agent-team-patterns",
+    "qiita_id": "ecc843ac1ab58c2c534b"
+  },
+  {
+    "slug": "obsidian-claude-code-second-brain",
+    "qiita_id": "c35c0aaed00878d88b05"
+  },
+  {
+    "slug": "obsidian-sqlite-vec-semantic-search",
+    "qiita_id": "c08770401408e7e1c54b"
+  },
+  {
+    "slug": "claude-code-scheduled-tasks-automation",
+    "qiita_id": "51a948ff7710627e9cad"
+  },
+  {
+    "slug": "claude-code-env-security-claudeignore",
+    "qiita_id": "5b10c4042a9a382b6554"
+  },
+  {
+    "slug": "claude-code-self-coderag-cross-pj-search",
+    "qiita_id": "019ef83c7be26f09d307"
+  },
+  {
+    "slug": "2026-04-28_claude-mem-vs-self-managed-memory",
+    "qiita_id": "e717659f10192f32e7b1"
+  },
+  {
+    "slug": "ai-neutral-layer-claude-codex-adapter",
+    "qiita_id": "ce29e76f94d3a0b64dac"
+  },
+  {
+    "slug": "ai-record-hierarchy-vault-design",
+    "qiita_id": "74737ca70a10cb4e57fa"
+  },
+  {
+    "slug": "ai-agent-evidence-required-policy",
+    "qiita_id": "1da2d3c108fcc3be10f6"
+  },
+  {
+    "slug": "claude-code-api-gate-design",
+    "qiita_id": "fa68b3f540496b0d76fa"
+  },
+  {
+    "slug": "claude-code-skill-eval-gotchas-loop",
+    "qiita_id": "0179b1fc81cea8478214"
+  },
+  {
+    "slug": "claude-code-spec-first-rule",
+    "qiita_id": "7f9d4263456a0161867b"
+  },
+  {
+    "slug": "ultraplan-confidentiality-policy",
+    "qiita_id": "6698fa06e3c38265b757"
+  },
+  {
+    "slug": "2026-05-07_claude-code-prebash-guard",
+    "qiita_id": "87a9da8490b445222e36"
+  },
+  {
+    "slug": "claude-codex-mcp-parity-secrets",
+    "qiita_id": "cabe9e7e4d720e32a302"
+  },
+  {
+    "slug": "vault-rag-bge-m3-sqlite-vec-mcp-design",
+    "qiita_id": "e476f76d4dc3e739e251"
+  },
+  {
+    "slug": "codex-vault-context-bootstrap-design",
+    "qiita_id": "d01258ebd53f43e2727f"
+  },
+  {
+    "slug": "claude-code-working-memory-design",
+    "qiita_id": "2fc110e5aeb34985acf9"
+  },
+  {
+    "slug": "ai-feedback-3layer-self-improving-loop",
+    "qiita_id": "b9856671bf5cb0b9d15e"
+  },
+  {
+    "slug": "claude-code-script-skill-integration",
+    "qiita_id": "c7728cb2011c8f6d7c82"
+  },
+  {
+    "slug": "karpathy-claude-md-already-have-it",
+    "qiita_id": "80a6a0c8fe73bd9450c3"
+  },
+  {
+    "slug": "claude-code-context-window-3-strategies",
+    "qiita_id": "33d0a9b73b6ce0dee1ad"
+  },
+  {
+    "slug": "claude-code-rollback-path-first-rule",
+    "qiita_id": "702c4e4d699404acf81a"
+  },
+  {
+    "slug": "2026-05-16_claude-code-naked-codex-over-tuning",
+    "qiita_id": "60adfc41690c45d59f15"
+  },
+  {
+    "slug": "2026-05-18_claude-code-seo-article-automation-pipe",
+    "qiita_id": "03f367dd1a804248e4f4"
+  },
+  {
+    "slug": "2026-05-18_claude-md-rate-limit-tips",
+    "qiita_id": "524ca5cc51e6e4f74305"
+  },
+  {
+    "slug": "2026-05-18_hooks-type-prompt-billing-gate",
+    "qiita_id": "4aa912fee4df18cf6ace"
+  },
+  {
+    "slug": "claude-code-permissions-deny-default-overlap",
+    "qiita_id": "ffc79c01f54909974075"
+  },
+  {
+    "slug": "2026-05-20_claude-code-html-over-markdown",
+    "qiita_id": "56efa02ba181e0094ec9"
+  },
+  {
+    "slug": "hermes-agent-claude-code-already-had-it",
+    "qiita_id": "a9086bc305bacbdde213"
+  },
+  {
+    "slug": "2026-05-22_claude-code-html-output-design",
+    "qiita_id": "a3e614ff09d28047abf1"
+  },
+  {
+    "slug": "anthropic-memory-api-managed-agents-guide",
+    "qiita_id": "402879f0c01c2c746d13"
+  },
+  {
+    "slug": "anthropic-dreaming-scheduled-task-implementation",
+    "qiita_id": "50e8770b61fdc6c66383"
+  },
+  {
+    "slug": "agent-memory-optimistic-concurrency-python",
+    "qiita_id": "00dcf0a6e2f89dd9e77a"
+  },
+  {
+    "slug": "supabase-agent-memory-optimistic-concurrency",
+    "qiita_id": "7c817e6e10c789aa5732"
+  }
+]

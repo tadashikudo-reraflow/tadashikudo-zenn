@@ -1,0 +1,11 @@
+{
+  "name": "tadashikudo-zenn",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "preview": "zenn preview"
+  },
+  "dependencies": {
+    "zenn-cli": "^0.1"
+  }
+}
