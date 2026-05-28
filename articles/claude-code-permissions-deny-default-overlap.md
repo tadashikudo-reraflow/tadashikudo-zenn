@@ -3,7 +3,7 @@ title: "Claude Codeのpermissions.denyを厚く書いてる人へ：たぶん全
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "セキュリティ", "permissions", "設定"]
-published: true
+published: false
 ---
 # Claude Codeのpermissions.denyを厚く書いてる人へ：たぶん全部デフォルトで防がれてる
 

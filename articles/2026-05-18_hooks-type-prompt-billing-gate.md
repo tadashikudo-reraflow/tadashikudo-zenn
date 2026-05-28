@@ -3,7 +3,7 @@ title: "Claude Code フックの type:\"prompt\" vs type:\"command\"——「止
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "hooks", "設計", "自動化"]
-published: true
+published: false
 ---
 # Claude Code フックの type:"prompt" vs type:"command"——「止める」と「考えさせる」の使い分け、API課金ゲートの実装例
 

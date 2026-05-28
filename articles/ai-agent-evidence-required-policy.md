@@ -3,7 +3,7 @@ title: "AI Agent の自己診断を信用するな：「証跡必須化」ポリ
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "エージェント", "信頼性", "Postmortem"]
-published: true
+published: false
 ---
 # AI Agent の自己診断を信用するな：「証跡必須化」ポリシーで誤報を撲滅した話
 

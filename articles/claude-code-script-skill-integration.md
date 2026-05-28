@@ -3,7 +3,7 @@ title: "「スクリプトはあるがスキルから参照されない」を防
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "スキル", "自動化", "設計"]
-published: true
+published: false
 ---
 # 「スクリプトはあるがスキルから参照されない」を防ぐ：技術的負債を自動解消する統合ルール
 
