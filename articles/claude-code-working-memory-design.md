@@ -3,7 +3,7 @@ title: "AIエージェントの「未完了タスク」をどこに書くか：w
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "Obsidian", "メモリ管理", "設計"]
-published: false
+published: true
 ---
 # AIエージェントの「未完了タスク」をどこに書くか：working-memory.md 運用設計
 
