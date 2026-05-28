@@ -3,7 +3,7 @@ title: "Codex CLI に Claude Code と同じ Vault 文脈を継承させる：Con
 emoji: "🤖"
 type: "tech"
 topics: ["Codex", "ClaudeCode", "AI", "Obsidian", "設計"]
-published: false
+published: true
 ---
 # Codex CLI に Claude Code と同じ Vault 文脈を継承させる：Context Bootstrap の設計
 
