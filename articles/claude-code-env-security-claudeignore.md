@@ -3,7 +3,7 @@ title: "Claude CodeにAPIキーが丸見え？.claudeignoreで守る実践ガイ
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "セキュリティ", "AI", "dotenv", "AIコーディング"]
-published: false
+published: true
 ---
 # Claude CodeにAPIキーが丸見え？.claudeignoreで守る実践ガイド
 
