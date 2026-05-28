@@ -3,7 +3,7 @@ title: "Claude Code の Pre-Bash フックで課金 API を自動ガードした
 emoji: "🤖"
 type: "tech"
 topics: ["Claude", "ClaudeCode", "AIエージェント", "セキュリティ", "ShellScript"]
-published: false
+published: true
 ---
 # Claude Code の Pre-Bash フックで課金 API を自動ガードした話（コマンドチェーンバイパス対策あり）
 
