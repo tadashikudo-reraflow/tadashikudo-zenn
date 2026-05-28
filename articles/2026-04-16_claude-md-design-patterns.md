@@ -3,7 +3,7 @@ title: "Claude Code の CLAUDE.md 設計パターン完全ガイド"
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "LLM", "開発環境", "生産性"]
-published: false
+published: true
 ---
 # Claude Code の CLAUDE.md 設計パターン完全ガイド
 

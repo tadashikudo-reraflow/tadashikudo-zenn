@@ -3,7 +3,7 @@ title: "月額$200のSEOツールを不要にした——Claude Codeで記事生
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "SEO", "コンテンツ自動化", "生成AI"]
-published: false
+published: true
 ---
 # 月額$200のSEOツールを不要にした——Claude Codeで記事生成を全自動化した実録
 
