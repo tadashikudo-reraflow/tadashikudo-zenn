@@ -274,5 +274,5 @@ Oracle ADB Free tierではGraph Studio（WebUI）が非対応。SQL/PGQのCREATE
 
 ---
 
-*著者: K.D（外資IT PM / AI競艇・競馬予想モデル開発者）*
+*著者: K.D*
 *競艇予想モデル: Oracle ADB + LightGBM / 競馬予想モデル: Oracle 23ai + DBMS_VECTOR + LightGBM*
