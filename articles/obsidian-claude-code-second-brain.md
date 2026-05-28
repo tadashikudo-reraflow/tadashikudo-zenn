@@ -3,7 +3,7 @@ title: "ObsidianとClaude Codeで作る「第二の脳」——Vault自動管理
 emoji: "🤖"
 type: "tech"
 topics: ["Obsidian", "ClaudeCode", "AI", "PKM", "知識管理"]
-published: true
+published: false
 ---
 # ObsidianとClaude Codeで作る「第二の脳」——Vault自動管理の全体設計
 

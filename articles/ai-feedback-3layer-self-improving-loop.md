@@ -3,7 +3,7 @@ title: "AIフィードバックを「資産化」する3層構造：feedback_*.m
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "自己改善", "メモリ管理", "Obsidian"]
-published: true
+published: false
 ---
 # AIフィードバックを「資産化」する3層構造：feedback_*.md → feedback-index → MEMORY.md
 

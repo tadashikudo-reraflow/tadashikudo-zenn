@@ -3,7 +3,7 @@ title: "全PJのコードを横断ベクトル検索: SQLite-vec + bge-m3 で自
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "RAG", "SQLite", "MCP", "ベクトル検索"]
-published: true
+published: false
 ---
 # 全PJのコードを横断ベクトル検索: SQLite-vec + bge-m3 で自前code-ragを作った（vault-rag兄弟版）
 

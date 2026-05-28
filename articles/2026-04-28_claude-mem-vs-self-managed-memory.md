@@ -3,7 +3,7 @@ title: "67kスター「claude-mem」は本当に必要か？Claude Code自前メ
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "メモリ管理", "Obsidian", "自動化"]
-published: true
+published: false
 ---
 # 67kスター「claude-mem」は本当に必要か？Claude Code自前メモリ管理の3層構造で代替する
 
