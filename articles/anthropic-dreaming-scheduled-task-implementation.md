@@ -3,7 +3,7 @@ title: "Anthropic \"Dreaming\"をscheduled-taskで再現する——週次cross-
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AIAgent", "Dreaming", "Anthropic", "記憶管理"]
-published: false
+published: true
 ---
 # Anthropic "Dreaming"をscheduled-taskで再現する——週次cross-agent記憶整理の実装
 

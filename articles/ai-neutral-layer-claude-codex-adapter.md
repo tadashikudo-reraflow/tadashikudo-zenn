@@ -3,7 +3,7 @@ title: "Claude / Codex / Cursor を「中立層」で束ねる：AI-AGENT.md 設
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "Codex", "AI", "設計", "Obsidian"]
-published: false
+published: true
 ---
 # Claude / Codex / Cursor を「中立層」で束ねる：AI-AGENT.md 設計と adapter pattern
 

@@ -3,7 +3,7 @@ title: "Claude Code に「API課金ゲート」を設計する：暴走を防ぐ
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "LLM", "コスト最適化", "設計"]
-published: false
+published: true
 ---
 # Claude Code に「API課金ゲート」を設計する：暴走を防ぐヒューマン・イン・ザ・ループ
 

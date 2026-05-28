@@ -3,7 +3,7 @@ title: "AIにとっての「記録階層」設計：feedback / ADR / working-mem
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "Obsidian", "ドキュメント", "設計"]
-published: false
+published: true
 ---
 # AIにとっての「記録階層」設計：feedback / ADR / working-memory / project_*.md の使い分け
 
