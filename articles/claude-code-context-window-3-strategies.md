@@ -1,5 +1,5 @@
 ---
-title: "Claude Code でコンテキストを枯渇させない3つの戦略——working-memory / PreCompact フック / 出力間引き"
+title: "Claude Codeでコンテキストを枯渇させない3つの戦略——working-memory/PreCompact/出力間引き"
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "MCP", "コンテキスト管理", "設計"]

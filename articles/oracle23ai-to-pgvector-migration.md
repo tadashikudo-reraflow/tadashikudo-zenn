@@ -1,5 +1,5 @@
 ---
-title: "Oracle 23ai → PostgreSQL+pgvector 移行記：embedding 384次元→3072次元同時移行でRAG精度51%改善した話"
+title: "Oracle 23ai→PostgreSQL+pgvector 移行記：embedding刷新でRAG精度51%改善"
 emoji: "🔄"
 type: "tech"
 topics: ["PostgreSQL", "oracle", "rag", "pgvector", "ベクトルDB"]

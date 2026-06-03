@@ -1,5 +1,5 @@
 ---
-title: "Claude Code フックの type:\"prompt\" vs type:\"command\"——「止める」と「考えさせる」の使い分け、API課金ゲートの実装例"
+title: "Claude Code フックの type:prompt vs command——「止める」と「考えさせる」の使い分けとAPI課金ゲート"
 emoji: "🤖"
 type: "tech"
 topics: ["ClaudeCode", "AI", "hooks", "設計", "自動化"]
