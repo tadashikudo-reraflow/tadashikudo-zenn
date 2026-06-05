@@ -106,3 +106,9 @@ Claude Code (司令塔)
 特に3点目は効きます。実装を並列化すると速く見えますが、計画やテスト観点が甘いと後で詰みます。先に複数視点で潰す方が、全体の wall-clock が短くなる場面はかなり多いです。
 
 Claude Code で workflow を組むなら、まずは「並列実行 API を探す」のではなく、`~/.claude/` にあるような **起動条件、役割分担、レビュー段の並列化** を先に設計した方が安定します。自分の環境では、workflow はコードではなく運用ルールとして先に存在していました。
+
+## 関連記事
+
+- [Claude Code Agent Team 設計パターン](https://zenn.dev/tadkud/articles/claude-code-agent-team-patterns)
+- [Claude Codeのマルチエージェントを、LangGraphの設計思想で整理・改善した話](https://zenn.dev/tadkud/articles/claude-code-multiagent-langgraph)
+- [Claude Code scheduled tasks で朝刊・日次レポートを全自動生成する](https://zenn.dev/tadkud/articles/claude-code-scheduled-tasks-automation)
