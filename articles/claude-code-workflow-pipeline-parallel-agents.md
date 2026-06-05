@@ -1,198 +1,108 @@
 ---
-title: "Claude Code Workflow スクリプトで複数エージェントを並列・パイプライン実行する"
+title: "Claude Code Workflowで複数エージェントを並列実行する設計"
 emoji: "🤖"
 type: "tech"
-topics: ["claudecode", "agent", "ai", "automation"]
-published: false
+topics: ["claudecode", "ai", "自動化", "agent"]
+published: true
 ---
 
 ## はじめに
 
-Claude Code には、複数のサブエージェントを**決定論的な制御フロー**でオーケストレーションする「Workflow ツール」があります。
+`workflow` という言葉は便利ですが、Claude Code ではそれを曖昧に使うとすぐ破綻します。実際に手元の `~/.claude/` を読み直すと、workflow は「魔法の単一機能」ではなく、少なくとも次の3層に分かれていました。
 
-通常の `Agent` ツールが「1つのサブエージェントを起動して結果を待つ」のに対し、Workflow スクリプトはループ・条件分岐・並列ファンアウトを JavaScript で記述し、その制御フローを確実に実行します。
+1. 起動を許可するルール
+2. どのエンジンに何をやらせるかというオーケストレーション
+3. 実タスクをどう段階化し、どこで並列化するかという実行手順
 
-```
-通常のAgent:  main → spawn 1 agent → wait → proceed
-Workflow:     main → script (parallel/pipeline/loop) → structured result
-```
+この記事は一般論ではなく、実ファイルとして確認した `~/.claude/settings.json`、`~/.claude/CLAUDE.md`、`~/.claude/docs/workflow-orchestration.md`、`~/.claude/agents/dev/SKILL.md`、`~/.claude/agents/dev/references/workflow.md` を根拠にまとめます。
 
-本記事では Workflow スクリプトの基本構造から、`pipeline()` と `parallel()` の使い分け、structured output の受け取り方まで解説します。
+## まず「workflowを起動してよい状態」を作る
 
----
+最初に効いているのは `~/.claude/settings.json` の Hook です。`TeamCreate` には、通常は「Agent Teamを起動してよいか確認する」ための prompt hook が入っています。つまり、複数エージェント実行はデフォルトで自動許可ではありません。
 
-## Workflow スクリプトの基本構造
+一方で `~/.claude/CLAUDE.md` には、次の例外ルールがあります。
 
-スクリプトは **plain JavaScript**（TypeScript は不可）で記述します。必ずファイル冒頭に `meta` を置きます。
+- プロンプトに `workflow` / `workflows` を含む場合は明示 opt-in 扱い
+- その場合は Agent Team 起動確認を追加で挟まず進めてよい
 
-```js
-export const meta = {
-  name: 'review-pr',
-  description: 'PRを複数の視点でレビューし、確認済み問題を返す',
-  phases: [
-    { title: 'Review', detail: '複数次元でレビュー' },
-    { title: 'Verify', detail: '各指摘を検証' },
-  ],
-}
+ここが重要です。並列化そのものより先に、**「これは重いオーケストレーションを回してよい依頼か」** を明文化してあります。実運用では、この入口がないとサブエージェント乱発が起きます。
 
-// スクリプト本文（async コンテキストで実行される）
-phase('Review')
-const findings = await agent(
-  '対象ファイルのバグ・セキュリティ問題・パフォーマンス問題を列挙してください。',
-  { label: 'find-issues' }
-)
-log(`発見: ${findings.length}文字`)
-```
+## workflowは「誰が何を担当するか」の配線図
 
-### agent() の基本
+次に `~/.claude/docs/workflow-orchestration.md` を見ると、workflow は JavaScript の DSL というより、役割分担の設計書として使われています。整理するとこうです。
 
-```js
-// schema なし → 最終テキストを string で返す
-const text = await agent('ファイルを要約してください。')
+| 役割 | 主担当 |
+| --- | --- |
+| 指揮・判断・統合・レビュー | Claude |
+| 大規模コード実装・リファクタ | Codex CLI |
+| 大量リサーチ・情報収集 | Gemini CLI |
 
-// schema あり → バリデーション済みオブジェクトを返す
-const SCHEMA = {
-  type: 'object',
-  properties: {
-    summary: { type: 'string' },
-    risk:    { type: 'string', enum: ['low', 'medium', 'high'] },
-  },
-  required: ['summary', 'risk'],
-}
-const result = await agent('リスクを評価してください。', { schema: SCHEMA })
-console.log(result.risk) // 'low' | 'medium' | 'high'
+しかも、この分担は抽象論で終わっていません。発動条件まで書かれています。
+
+- 調査対象 URL が3つ以上
+- 変更対象ファイルが5つ以上
+- 調査→分析→統合のパイプライン型タスク
+- 大量テキスト処理が予想される場合
+
+つまり workflow の本体は「並列実行すること」ではなく、**どの仕事をどの実行系に切り出すかを先に固定すること**です。
+
+ドキュメント中のフローもかなり実務的です。
+
+```text
+Claude Code (司令塔)
+├── リサーチ重い → Agent → gemini
+├── コード量多い → Agent → codex exec
+└── 統合・レビュー → Claude自身
 ```
 
-`schema` を指定すると、エージェントは StructuredOutput ツールを呼ぶように指示され、型不一致の場合は自動リトライします。
+この構造なら、Claude を coordinator に固定したまま、重い処理だけ別エンジンへ逃がせます。
 
----
+## 実際の dev agent は「3回並列レビューしてから実装」に寄っている
 
-## pipeline() と parallel() の使い分け
+もっと具体的なのが `~/.claude/agents/dev/SKILL.md` と `~/.claude/agents/dev/references/workflow.md` です。ここでは workflow が実装パイプラインとして定義されています。
 
-**最重要ルール: デフォルトは `pipeline()`**
+流れを抜き出すと次の順です。
 
-| 関数 | バリア | 使いどき |
-|------|--------|----------|
-| `pipeline(items, ...stages)` | **なし** | 各アイテムが独立して全ステージを流れる。Wall-clock = 最遅アイテム1本分 |
-| `parallel(thunks)` | **あり** | 全アイテムの前ステージ完了を待ってから次へ。全結果を合算したいとき |
+1. Planner がサブタスク分解
+2. 3並列レビュー
+3. TEST PLAN 生成
+4. 3並列のテスト網羅性レビュー
+5. worktree 作成
+6. codex-worker で実装
+7. テスト
+8. 最終テスト再実行
+9. レビュー
+10. preview や complete へ進む
 
-### pipeline() の例
+特に面白いのは、並列化の置きどころです。いきなり実装を fan-out するのではなく、先にレビュー段を並列化しています。
 
-ファイルリストの各ファイルをレビュー → 各ファイルの結果を検証、という2ステージを並行処理します。
+`workflow.md` では Plan 段階で次の3視点レビューを同時に回します。
 
-```js
-const files = ['src/auth.ts', 'src/db.ts', 'src/api.ts']
+- PM/Product 視点: 受け入れ条件とスコープ
+- Technical/Architecture 視点: 粒度、依存関係、型や設計の破綻
+- Risk/Rollback 視点: 副作用、危険度、戻しやすさ
 
-const results = await pipeline(
-  files,
-  // Stage 1: レビュー
-  (file) => agent(`${file} のバグ・問題点を列挙してください。`, {
-    label: `review:${file}`,
-    phase: 'Review',
-    schema: FINDINGS_SCHEMA,
-  }),
-  // Stage 2: 検証（Stage 1の結果 + 元アイテムを受け取れる）
-  (review, file) => agent(
-    `次の指摘が本当に問題か検証してください:\n${JSON.stringify(review.findings)}`,
-    { label: `verify:${file}`, phase: 'Verify', schema: VERDICT_SCHEMA }
-  )
-)
-// auth.ts が Stage 2 に進む間、db.ts は Stage 1 を並行実行している
-```
+さらに TEST PLAN の後にも、正常系・異常系・E2E 統合の3視点で並列レビューを挟みます。実装を早めるための並列化ではなく、**後戻りを減らすための並列化**になっています。
 
-`pipeline()` の Stage コールバックは `(prevResult, originalItem, index)` を受け取ります。後段で元のファイル名が必要なときは `originalItem` を使います。
+## 実装担当はClaudeではなく codex-worker に寄せている
 
-### parallel() が必要なケース
+`~/.claude/agents/dev/SKILL.md` で明示されていたのは、コードを書く作業をかなり強く `codex-worker` に寄せていることです。
 
-全ファイルのレビュー結果を集めてから重複除去し、それを検証する——全件が揃う必要がある場合はバリアが正当です。
+- 実装・コード生成
+- テストコード生成
+- リファクタリング
+- バグ修正
 
-```js
-// 全ファイルのレビューを並行実行（バリア）
-const allReviews = await parallel(
-  files.map(f => () => agent(`${f} をレビュー`, { schema: FINDINGS_SCHEMA }))
-)
+逆に Claude 側は、Planner、設計判断、レビュー、ゲート管理に残しています。ここも重要で、複数エージェント運用が不安定になる原因は「誰が最終判断者か」が曖昧になることです。役割を固定しておくと、並列化しても責任境界が崩れにくいです。
 
-// 全件をまとめて重複除去（全件が必要）
-const deduped = deduplicateByFileAndLine(
-  allReviews.filter(Boolean).flatMap(r => r.findings)
-)
+## この設計で学んだこと
 
-// 重複除去後の指摘を検証
-const verified = await parallel(
-  deduped.map(f => () => agent(`指摘を検証: ${f.desc}`, { schema: VERDICT_SCHEMA }))
-)
-```
+手元の構成を読む限り、workflow の価値は「サブエージェントを同時に回せること」そのものではありません。価値があるのは次の3点です。
 
-「flatten/map/filter するだけ」なら `pipeline()` の中でやれば済みます。cross-item の集計が不要なのにバリアを置くのは wall-clock の無駄です。
+- 重い実行を許可する入口条件がある
+- 司令塔、実装、調査の担当が分かれている
+- 実装前のレビュー段に並列化を使っている
 
----
+特に3点目は効きます。実装を並列化すると速く見えますが、計画やテスト観点が甘いと後で詰みます。先に複数視点で潰す方が、全体の wall-clock が短くなる場面はかなり多いです。
 
-## loop-until-dry パターン
-
-バグや問題点を「見つからなくなるまで」探すループを書けます。
-
-```js
-const bugs = []
-let dry = 0
-
-while (dry < 2) {
-  const result = await agent(
-    'コードベースの未発見バグを列挙してください。',
-    { schema: BUGS_SCHEMA }
-  )
-  const fresh = result.bugs.filter(b => !bugs.some(existing => existing.id === b.id))
-  if (fresh.length === 0) {
-    dry++
-  } else {
-    dry = 0
-    bugs.push(...fresh)
-    log(`${bugs.length} 件発見`)
-  }
-}
-
-return bugs
-```
-
-連続2ラウンド新発見がなければ終了する「枯渇ループ」です。単純な `while (count < N)` より tail を捕捉しやすい構造です。
-
----
-
-## よくある間違い
-
-### TypeScript の型注釈を書いてしまう
-
-```js
-// NG: TypeScript は parse エラーになる
-const files: string[] = ['a.ts', 'b.ts']
-
-// OK: plain JS
-const files = ['a.ts', 'b.ts']
-```
-
-### Date.now() / Math.random() を使う
-
-Workflow スクリプトは **resume（再実行キャッシュ）** をサポートします。`Date.now()` や `Math.random()` は resume で値が変わるため、意図的に使用禁止にされています。タイムスタンプが必要なら `args` で外から渡してください。
-
-```js
-// NG
-const ts = Date.now()
-
-// OK: args から受け取る
-const ts = args.timestamp // Workflow 呼び出し時に { args: { timestamp: Date.now() } } を渡す
-```
-
-### parallel() でバリアを置きすぎる
-
-前ステージの **全アイテム** が完了するまで後ステージが始まれないため、遅いアイテム1つが全体を足止めします。「全件が揃わないと先へ進めない」理由がないなら `pipeline()` を使ってください。
-
----
-
-## まとめ
-
-- **`pipeline()` がデフォルト**: 各アイテムが独立してステージを流れ、最遅の1本が wall-clock を決める。バリアなし
-- **`parallel()` はバリアが必要な時のみ**: 全件結果を cross-item で合算する直前に使う
-- **`schema` で型安全**: エージェントの出力を JSON Schema でバリデーション、型不一致は自動リトライ
-- **loop-until-dry**: 件数が不明な発見タスクには count ループより枯渇ループが安全
-- **plain JavaScript**: TypeScript 記法・`Date.now()`・`Math.random()` は使用不可
-
-Workflow ツールを使うと、コードレビュー・バグ探索・ドキュメント生成など「多視点で並列して結果を集める」タスクをコード1ファイルで構造化できます。Agent ツールの並列呼び出しとは違い、制御フローがスクリプトに明示されるため、後から読み返したり、途中から resume したりが容易です。
+Claude Code で workflow を組むなら、まずは「並列実行 API を探す」のではなく、`~/.claude/` にあるような **起動条件、役割分担、レビュー段の並列化** を先に設計した方が安定します。自分の環境では、workflow はコードではなく運用ルールとして先に存在していました。
